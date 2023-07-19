@@ -21,7 +21,7 @@ public class EventTypeController {
     }
 
     @GetMapping("/api/eventType/{eventTypeID}")
-    public EventType fetchOne(@PathVariable("eventTypeID") long eventTypeID){
+    public EventType fetchOne(@PathVariable("eventTypeID") Long eventTypeID){
         return this.eventTypeService.fetchOne(eventTypeID);
     }
 
@@ -31,12 +31,12 @@ public class EventTypeController {
     }
 
     @PutMapping("/api/eventType/{eventTypeID}")
-    public EventType update(@RequestBody EventType eventType, @PathVariable("eventTypeID") long eventTypeID){
+    public EventType update(@RequestBody EventType eventType, @PathVariable("eventTypeID") Long eventTypeID){
         return this.eventTypeService.update(eventType, eventTypeID);
     }
 
     @DeleteMapping("/api/eventType/{eventTypeID}")
-    public void delete(@PathVariable("eventTypeID") long eventTypeID){
+    public void delete(@PathVariable("eventTypeID") Long eventTypeID){
         this.eventTypeService.delete(eventTypeID);
     }
 }

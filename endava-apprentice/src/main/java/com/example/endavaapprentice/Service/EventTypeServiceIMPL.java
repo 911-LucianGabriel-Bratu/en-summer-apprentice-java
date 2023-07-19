@@ -10,6 +10,10 @@ import java.util.List;
 public class EventTypeServiceIMPL implements IEventTypeService{
     private EventTypeRepo eventTypeRepo;
 
+    public EventTypeServiceIMPL(EventTypeRepo eventTypeRepo){
+        this.eventTypeRepo = eventTypeRepo;
+    }
+
     @Override
     public EventType add(EventType eventType) {
         return this.eventTypeRepo.save(eventType);
@@ -31,7 +35,7 @@ public class EventTypeServiceIMPL implements IEventTypeService{
     }
 
     @Override
-    public EventType update(EventType eventType, long eventTypeID) {
+    public EventType update(EventType eventType, Long eventTypeID) {
         EventType updateEventType = this.eventTypeRepo.findById(eventTypeID).get();
         updateEventType.setEventTypeName(eventType.getEventTypeName());
         return this.eventTypeRepo.save(updateEventType);

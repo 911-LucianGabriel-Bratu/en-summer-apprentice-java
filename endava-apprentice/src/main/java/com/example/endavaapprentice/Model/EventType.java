@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class EventType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long eventTypeID;
+    private Long eventTypeID;
 
     @Column(name = "eventTypeName", unique = true)
     private String eventTypeName;

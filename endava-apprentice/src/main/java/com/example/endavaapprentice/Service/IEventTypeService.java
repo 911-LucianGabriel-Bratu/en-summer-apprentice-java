@@ -11,5 +11,5 @@ public interface IEventTypeService {
     List<EventType> fetchAll();
     void delete(Long eventTypeID);
 
-    EventType update(EventType eventType, long eventTypeID);
+    EventType update(EventType eventType, Long eventTypeID);
 }
