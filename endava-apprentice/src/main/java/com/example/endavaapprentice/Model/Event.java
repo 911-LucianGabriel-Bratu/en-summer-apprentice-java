@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Event", schema = "dbo")
@@ -37,6 +38,9 @@ public class Event {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private EventType eventType;
+
+    @OneToMany(mappedBy = "event")
+    private List<TicketCategory> ticketCategoryList;
 
     public Event(){
     }
@@ -95,5 +99,13 @@ public class Event {
 
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
+    }
+
+    public List<TicketCategory> getTicketCategoryList() {
+        return ticketCategoryList;
+    }
+
+    public void setTicketCategoryList(List<TicketCategory> ticketCategoryList) {
+        this.ticketCategoryList = ticketCategoryList;
     }
 }

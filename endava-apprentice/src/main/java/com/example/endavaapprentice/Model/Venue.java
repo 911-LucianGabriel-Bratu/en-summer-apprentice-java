@@ -2,6 +2,8 @@ package com.example.endavaapprentice.Model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Venue", schema = "dbo")
 public class Venue {
@@ -17,6 +19,9 @@ public class Venue {
 
     @Column(name = "capacity")
     private int capacity;
+
+    @OneToMany(mappedBy = "venue")
+    private List<Event> eventList;
 
     public Venue(){
     }
@@ -51,5 +56,13 @@ public class Venue {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
     }
 }

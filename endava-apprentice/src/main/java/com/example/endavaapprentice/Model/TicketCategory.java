@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "TicketCategory", schema = "dbo")
@@ -25,6 +26,9 @@ public class TicketCategory {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Event event;
+
+    @OneToMany(mappedBy = "ticketCategory")
+    List<Orders> ordersList;
 
     public Long getTicketCategoryID() {
         return ticketCategoryID;
@@ -56,5 +60,13 @@ public class TicketCategory {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
     }
 }
