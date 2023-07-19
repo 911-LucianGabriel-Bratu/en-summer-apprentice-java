@@ -1,8 +1,8 @@
 package com.example.endavaapprentice.Controller;
 
 import com.example.endavaapprentice.Model.Orders;
-import com.example.endavaapprentice.Service.IOrdersService;
-import com.example.endavaapprentice.Service.OrdersService;
+import com.example.endavaapprentice.Service.IOrdersCompositeService;
+import com.example.endavaapprentice.Service.OrdersCompositeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,34 +10,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 public class OrdersController {
-    private IOrdersService ordersService;
+    private IOrdersCompositeService ordersCompositeService;
 
-    public OrdersController(OrdersService ordersService){
-        this.ordersService = ordersService;
+    public OrdersController(OrdersCompositeService ordersCompositeService){
+        this.ordersCompositeService = ordersCompositeService;
     }
 
     @GetMapping("/{orderID}")
     public Orders fetchOne(@PathVariable("orderID") Long orderID){
-        return this.ordersService.fetchOneOrder(orderID);
+        return this.ordersCompositeService.fetchOneOrder(orderID);
     }
 
     @GetMapping
     public List<Orders> fetchAll(){
-        return this.ordersService.fetchAllOrders();
+        return this.ordersCompositeService.fetchAllOrders();
     }
 
     @PostMapping("/customer/{customerID}/ticketCategory/{ticketCategoryID}")
     public Orders add(@RequestBody Orders orders, @PathVariable("customerID") Long customerID, @PathVariable("ticketCategoryID") Long ticketCategoryID){
-        return this.ordersService.placeOrder(orders, customerID, ticketCategoryID);
+        return this.ordersCompositeService.placeOrder(orders, customerID, ticketCategoryID);
     }
 
     @PutMapping("/{orderID}")
     public Orders update(@RequestBody Orders orders, @PathVariable("orderID") Long orderID){
-        return this.ordersService.updateOrder(orders, orderID);
+        return this.ordersCompositeService.updateOrder(orders, orderID);
     }
 
     @DeleteMapping("/{orderID}")
     public void delete(@PathVariable("orderID") Long orderID){
-        this.ordersService.deleteOrder(orderID);
+        this.ordersCompositeService.deleteOrder(orderID);
     }
 }

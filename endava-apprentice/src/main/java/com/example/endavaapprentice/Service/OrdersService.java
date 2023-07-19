@@ -13,21 +13,13 @@ import java.util.List;
 @Service
 public class OrdersService implements IOrdersService{
     private OrdersRepo ordersRepo;
-    private CustomerRepo customerRepo;
-    private TicketCategoryRepo ticketCategoryRepo;
 
-    public OrdersService(OrdersRepo ordersRepo, CustomerRepo customerRepo, TicketCategoryRepo ticketCategoryRepo){
-        this.customerRepo = customerRepo;
+    public OrdersService(OrdersRepo ordersRepo){
         this.ordersRepo = ordersRepo;
-        this.ticketCategoryRepo = ticketCategoryRepo;
     }
 
     @Override
-    public Orders placeOrder(Orders orders, Long customerID, Long ticketCategoryID) {
-        Customer customer = this.customerRepo.findById(customerID).get();
-        TicketCategory ticketCategory = this.ticketCategoryRepo.findById(ticketCategoryID).get();
-        orders.setCustomer(customer);
-        orders.setTicketCategory(ticketCategory);
+    public Orders placeOrder(Orders orders) {
         return this.ordersRepo.save(orders);
     }
 

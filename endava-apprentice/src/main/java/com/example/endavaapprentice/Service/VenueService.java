@@ -15,6 +15,10 @@ public class VenueService implements IVenueService {
     }
 
     @Override
+    public VenueRepo getVenueRepo(){
+        return this.venueRepo;
+    }
+    @Override
     public Venue fetchOneVenue(Long venueID) {
         return this.venueRepo.findById(venueID).get();
     }

@@ -1,11 +1,7 @@
 package com.example.endavaapprentice.Service;
 
 import com.example.endavaapprentice.Model.Event;
-import com.example.endavaapprentice.Model.EventType;
-import com.example.endavaapprentice.Model.Venue;
 import com.example.endavaapprentice.Repository.EventRepo;
-import com.example.endavaapprentice.Repository.EventTypeRepo;
-import com.example.endavaapprentice.Repository.VenueRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,21 +9,18 @@ import java.util.List;
 @Service
 public class EventService implements IEventService{
     private EventRepo eventRepo;
-    private EventTypeRepo eventTypeRepo;
-    private VenueRepo venueRepo;
 
-    public EventService(EventRepo eventRepo, EventTypeRepo eventTypeRepo, VenueRepo venueRepo){
+    public EventService(EventRepo eventRepo){
         this.eventRepo = eventRepo;
-        this.eventTypeRepo = eventTypeRepo;
-        this.venueRepo = venueRepo;
     }
 
     @Override
-    public Event createEvent(Event event, Long venueID, Long eventTypeID) {
-        Venue venue = this.venueRepo.findById(venueID).get();
-        EventType eventType = this.eventTypeRepo.findById(eventTypeID).get();
-        event.setEventType(eventType);
-        event.setVenue(venue);
+    public EventRepo getEventRepo(){
+        return this.eventRepo;
+    }
+
+    @Override
+    public Event createEvent(Event event) {
         return this.eventRepo.save(event);
     }
 

@@ -1,6 +1,7 @@
 package com.example.endavaapprentice.Service;
 
 import com.example.endavaapprentice.Model.EventType;
+import com.example.endavaapprentice.Repository.EventRepo;
 import com.example.endavaapprentice.Repository.EventTypeRepo;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,11 @@ public class EventTypeService implements IEventTypeService{
 
     public EventTypeService(EventTypeRepo eventTypeRepo){
         this.eventTypeRepo = eventTypeRepo;
+    }
+
+    @Override
+    public EventTypeRepo getEventTypeRepo(){
+        return this.eventTypeRepo;
     }
 
     @Override

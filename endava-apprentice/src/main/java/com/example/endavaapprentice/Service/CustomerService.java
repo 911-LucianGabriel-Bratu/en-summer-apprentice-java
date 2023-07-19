@@ -14,6 +14,9 @@ public class CustomerService implements ICustomerService{
         this.customerRepo = customerRepo;
     }
 
+    public CustomerRepo getCustomerRepo(){
+        return this.customerRepo;
+    }
 
     @Override
     public Customer registerCustomer(Customer customer) {

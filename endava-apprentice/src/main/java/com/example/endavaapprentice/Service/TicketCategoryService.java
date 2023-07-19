@@ -1,6 +1,5 @@
 package com.example.endavaapprentice.Service;
 
-import com.example.endavaapprentice.Model.Event;
 import com.example.endavaapprentice.Model.TicketCategory;
 import com.example.endavaapprentice.Repository.EventRepo;
 import com.example.endavaapprentice.Repository.TicketCategoryRepo;
@@ -12,11 +11,12 @@ import java.util.List;
 public class TicketCategoryService implements ITicketCategoryService{
     private TicketCategoryRepo ticketCategoryRepo;
 
-    private EventRepo eventRepo;
-
     public TicketCategoryService(TicketCategoryRepo ticketCategoryRepo, EventRepo eventRepo){
         this.ticketCategoryRepo = ticketCategoryRepo;
-        this.eventRepo = eventRepo;
+    }
+
+    public TicketCategoryRepo getTicketCategoryRepo(){
+        return this.ticketCategoryRepo;
     }
 
     @Override
@@ -30,9 +30,7 @@ public class TicketCategoryService implements ITicketCategoryService{
     }
 
     @Override
-    public TicketCategory createTicketCategory(TicketCategory ticketCategory, Long eventID) {
-        Event event = this.eventRepo.findById(eventID).get();
-        ticketCategory.setEvent(event);
+    public TicketCategory createTicketCategory(TicketCategory ticketCategory) {
         return this.ticketCategoryRepo.save(ticketCategory);
     }
 
