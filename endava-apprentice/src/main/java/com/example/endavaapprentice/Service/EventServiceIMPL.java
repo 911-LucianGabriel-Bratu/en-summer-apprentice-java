@@ -16,6 +16,12 @@ public class EventServiceIMPL implements IEventService{
     private EventTypeRepo eventTypeRepo;
     private VenueRepo venueRepo;
 
+    public EventServiceIMPL(EventRepo eventRepo, EventTypeRepo eventTypeRepo, VenueRepo venueRepo){
+        this.eventRepo = eventRepo;
+        this.eventTypeRepo = eventTypeRepo;
+        this.venueRepo = venueRepo;
+    }
+
     @Override
     public Event add(Event event, Long venueID, Long eventTypeID) {
         Venue venue = this.venueRepo.findById(venueID).get();
