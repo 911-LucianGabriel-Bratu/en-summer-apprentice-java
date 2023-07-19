@@ -1,42 +1,43 @@
 package com.example.endavaapprentice.Controller;
 
 import com.example.endavaapprentice.Model.Customer;
-import com.example.endavaapprentice.Service.CustomerServiceIMPL;
+import com.example.endavaapprentice.Service.CustomerService;
 import com.example.endavaapprentice.Service.ICustomerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/customer")
 public class CustomerController {
     private ICustomerService customerService;
 
-    public CustomerController(CustomerServiceIMPL customerService){
+    public CustomerController(CustomerService customerService){
         this.customerService = customerService;
     }
 
-    @GetMapping("/api/customer/{customerID}")
-    public Customer fetchOne(@PathVariable("customerID") long customerID){
-        return this.customerService.fetchOne(customerID);
+    @GetMapping("/{customerID}")
+    public Customer fetchOneCustomer(@PathVariable("customerID") long customerID){
+        return this.customerService.fetchOneCustomer(customerID);
     }
 
-    @GetMapping("/api/customer")
-    public List<Customer> fetchAll(){
-        return this.customerService.fetchAll();
+    @GetMapping
+    public List<Customer> fetchAllCustomers(){
+        return this.customerService.fetchAllCustomers();
     }
 
-    @PostMapping("/api/customer")
-    public Customer add(@RequestBody Customer customer){
-        return this.customerService.add(customer);
+    @PostMapping
+    public Customer registerCustomer(@RequestBody Customer customer){
+        return this.customerService.registerCustomer(customer);
     }
 
-    @PutMapping("/api/customer/{customerID}")
-    public Customer update(@RequestBody Customer customer, @PathVariable("customerID") long customerID){
-        return this.customerService.update(customer, customerID);
+    @PutMapping("/{customerID}")
+    public Customer updateCustomer(@RequestBody Customer customer, @PathVariable("customerID") long customerID){
+        return this.customerService.updateCustomer(customer, customerID);
     }
 
-    @DeleteMapping("/api/customer/{customerID}")
-    public void delete(@PathVariable("customerID") long customerID){
-        this.customerService.delete(customerID);
+    @DeleteMapping("/{customerID}")
+    public void deleteCustomer(@PathVariable("customerID") long customerID){
+        this.customerService.deleteCustomer(customerID);
     }
 }

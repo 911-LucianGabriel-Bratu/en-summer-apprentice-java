@@ -7,35 +7,35 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EventTypeServiceIMPL implements IEventTypeService{
+public class EventTypeService implements IEventTypeService{
     private EventTypeRepo eventTypeRepo;
 
-    public EventTypeServiceIMPL(EventTypeRepo eventTypeRepo){
+    public EventTypeService(EventTypeRepo eventTypeRepo){
         this.eventTypeRepo = eventTypeRepo;
     }
 
     @Override
-    public EventType add(EventType eventType) {
+    public EventType createEventType(EventType eventType) {
         return this.eventTypeRepo.save(eventType);
     }
 
     @Override
-    public EventType fetchOne(Long eventTypeID) {
+    public EventType fetchOneEventType(Long eventTypeID) {
         return this.eventTypeRepo.findById(eventTypeID).get();
     }
 
     @Override
-    public List<EventType> fetchAll() {
+    public List<EventType> fetchAllEventTypes() {
         return (List<EventType>) this.eventTypeRepo.findAll();
     }
 
     @Override
-    public void delete(Long eventTypeID) {
+    public void deleteEventType(Long eventTypeID) {
         this.eventTypeRepo.deleteById(eventTypeID);
     }
 
     @Override
-    public EventType update(EventType eventType, Long eventTypeID) {
+    public EventType updateEventType(EventType eventType, Long eventTypeID) {
         EventType updateEventType = this.eventTypeRepo.findById(eventTypeID).get();
         updateEventType.setEventTypeName(eventType.getEventTypeName());
         return this.eventTypeRepo.save(updateEventType);

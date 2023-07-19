@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EventServiceIMPL implements IEventService{
+public class EventService implements IEventService{
     private EventRepo eventRepo;
     private EventTypeRepo eventTypeRepo;
     private VenueRepo venueRepo;
 
-    public EventServiceIMPL(EventRepo eventRepo, EventTypeRepo eventTypeRepo, VenueRepo venueRepo){
+    public EventService(EventRepo eventRepo, EventTypeRepo eventTypeRepo, VenueRepo venueRepo){
         this.eventRepo = eventRepo;
         this.eventTypeRepo = eventTypeRepo;
         this.venueRepo = venueRepo;
     }
 
     @Override
-    public Event add(Event event, Long venueID, Long eventTypeID) {
+    public Event createEvent(Event event, Long venueID, Long eventTypeID) {
         Venue venue = this.venueRepo.findById(venueID).get();
         EventType eventType = this.eventTypeRepo.findById(eventTypeID).get();
         event.setEventType(eventType);
@@ -32,22 +32,22 @@ public class EventServiceIMPL implements IEventService{
     }
 
     @Override
-    public Event fetchOne(Long eventID) {
+    public Event fetchOneEvent(Long eventID) {
         return this.eventRepo.findById(eventID).get();
     }
 
     @Override
-    public List<Event> fetchAll() {
+    public List<Event> fetchAllEvents() {
         return (List<Event>) this.eventRepo.findAll();
     }
 
     @Override
-    public void delete(Long eventID) {
+    public void deleteEvent(Long eventID) {
         this.eventRepo.deleteById(eventID);
     }
 
     @Override
-    public Event update(Event event, Long eventID) {
+    public Event updateEvent(Event event, Long eventID) {
         Event updateEvent = this.eventRepo.findById(eventID).get();
         updateEvent.setEventName(event.getEventName());
         updateEvent.setEventDescription(event.getEventDescription());

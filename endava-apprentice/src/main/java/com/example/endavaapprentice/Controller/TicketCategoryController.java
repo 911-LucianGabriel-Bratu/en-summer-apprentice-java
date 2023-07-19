@@ -2,41 +2,42 @@ package com.example.endavaapprentice.Controller;
 
 import com.example.endavaapprentice.Model.TicketCategory;
 import com.example.endavaapprentice.Service.ITicketCategoryService;
-import com.example.endavaapprentice.Service.TicketCategoryServiceIMPL;
+import com.example.endavaapprentice.Service.TicketCategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/ticketCategory")
 public class TicketCategoryController {
     private ITicketCategoryService ticketCategoryService;
 
-    public TicketCategoryController(TicketCategoryServiceIMPL ticketCategoryService){
+    public TicketCategoryController(TicketCategoryService ticketCategoryService){
         this.ticketCategoryService = ticketCategoryService;
     }
 
-    @GetMapping("/api/ticketCategory/{ticketCategoryID}")
+    @GetMapping("/{ticketCategoryID}")
     public TicketCategory fetchOne(@PathVariable("ticketCategoryID") Long ticketCategoryID){
-        return this.ticketCategoryService.fetchOne(ticketCategoryID);
+        return this.ticketCategoryService.fetchOneTicketCategory(ticketCategoryID);
     }
 
-    @GetMapping("/api/ticketCategory")
+    @GetMapping
     public List<TicketCategory> fetchAll(){
-        return this.ticketCategoryService.fetchAll();
+        return this.ticketCategoryService.fetchAllTicketCategories();
     }
 
-    @PostMapping("/api/ticketCategory/event/{eventID}")
+    @PostMapping("/event/{eventID}")
     public TicketCategory add(@RequestBody TicketCategory ticketCategory, @PathVariable("eventID") Long eventID){
-        return this.ticketCategoryService.save(ticketCategory, eventID);
+        return this.ticketCategoryService.createTicketCategory(ticketCategory, eventID);
     }
 
-    @PutMapping("/api/ticketCategory/{ticketCategoryID}")
+    @PutMapping("/{ticketCategoryID}")
     public TicketCategory update(@RequestBody TicketCategory ticketCategory, @PathVariable("ticketCategoryID") Long ticketCategoryID){
-        return this.ticketCategoryService.update(ticketCategory, ticketCategoryID);
+        return this.ticketCategoryService.updateTicketCategory(ticketCategory, ticketCategoryID);
     }
 
-    @DeleteMapping("/api/ticketCategory/{ticketCategoryID}")
+    @DeleteMapping("/{ticketCategoryID}")
     public void delete(@PathVariable("ticketCategoryID") Long ticketCategoryID){
-        this.ticketCategoryService.delete(ticketCategoryID);
+        this.ticketCategoryService.deleteTicketCategory(ticketCategoryID);
     }
 }

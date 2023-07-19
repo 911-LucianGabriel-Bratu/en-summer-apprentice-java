@@ -1,42 +1,43 @@
 package com.example.endavaapprentice.Controller;
 
 import com.example.endavaapprentice.Model.Event;
-import com.example.endavaapprentice.Service.EventServiceIMPL;
+import com.example.endavaapprentice.Service.EventService;
 import com.example.endavaapprentice.Service.IEventService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/event")
 public class EventController {
     private IEventService eventService;
 
-    public EventController(EventServiceIMPL eventService){
+    public EventController(EventService eventService){
         this.eventService = eventService;
     }
 
-    @GetMapping("/api/event/{eventID}")
+    @GetMapping("/{eventID}")
     public Event fetchOne(@PathVariable("eventID") Long eventID){
-        return this.eventService.fetchOne(eventID);
+        return this.eventService.fetchOneEvent(eventID);
     }
 
-    @GetMapping("/api/event")
+    @GetMapping
     public List<Event> fetchAll(){
-        return this.eventService.fetchAll();
+        return this.eventService.fetchAllEvents();
     }
 
-    @PostMapping("/api/event/venue/{venueID}/eventType/{eventTypeID}")
+    @PostMapping("/venue/{venueID}/eventType/{eventTypeID}")
     public Event add(@RequestBody Event event, @PathVariable("venueID") Long venueID, @PathVariable("eventTypeID") Long eventTypeID){
-        return this.eventService.add(event, venueID, eventTypeID);
+        return this.eventService.createEvent(event, venueID, eventTypeID);
     }
 
-    @PutMapping("/api/event/{eventID}")
+    @PutMapping("/{eventID}")
     public Event update(@RequestBody Event event, @PathVariable("eventID") Long eventID){
-        return this.eventService.update(event, eventID);
+        return this.eventService.updateEvent(event, eventID);
     }
 
-    @DeleteMapping("/api/event/{eventID}")
+    @DeleteMapping("/{eventID}")
     public void delete(@PathVariable("eventID") Long eventID){
-        this.eventService.delete(eventID);
+        this.eventService.deleteEvent(eventID);
     }
 }

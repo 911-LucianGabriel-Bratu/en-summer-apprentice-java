@@ -6,10 +6,10 @@ import com.example.endavaapprentice.Model.EventType;
 import java.util.List;
 
 public interface IEventTypeService {
-    EventType add(EventType eventType);
-    EventType fetchOne(Long eventTypeID);
-    List<EventType> fetchAll();
-    void delete(Long eventTypeID);
+    EventType createEventType(EventType eventType);
+    EventType fetchOneEventType(Long eventTypeID);
+    List<EventType> fetchAllEventTypes();
+    void deleteEventType(Long eventTypeID);
 
-    EventType update(EventType eventType, Long eventTypeID);
+    EventType updateEventType(EventType eventType, Long eventTypeID);
 }

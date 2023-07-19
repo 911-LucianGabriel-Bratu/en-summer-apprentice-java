@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OrdersServiceIMPL implements IOrdersService{
+public class OrdersService implements IOrdersService{
     private OrdersRepo ordersRepo;
     private CustomerRepo customerRepo;
     private TicketCategoryRepo ticketCategoryRepo;
 
-    public OrdersServiceIMPL(OrdersRepo ordersRepo, CustomerRepo customerRepo, TicketCategoryRepo ticketCategoryRepo){
+    public OrdersService(OrdersRepo ordersRepo, CustomerRepo customerRepo, TicketCategoryRepo ticketCategoryRepo){
         this.customerRepo = customerRepo;
         this.ordersRepo = ordersRepo;
         this.ticketCategoryRepo = ticketCategoryRepo;
     }
 
     @Override
-    public Orders add(Orders orders, Long customerID, Long ticketCategoryID) {
+    public Orders placeOrder(Orders orders, Long customerID, Long ticketCategoryID) {
         Customer customer = this.customerRepo.findById(customerID).get();
         TicketCategory ticketCategory = this.ticketCategoryRepo.findById(ticketCategoryID).get();
         orders.setCustomer(customer);
@@ -32,17 +32,17 @@ public class OrdersServiceIMPL implements IOrdersService{
     }
 
     @Override
-    public Orders fetchOne(Long ordersID) {
+    public Orders fetchOneOrder(Long ordersID) {
         return this.ordersRepo.findById(ordersID).get();
     }
 
     @Override
-    public List<Orders> fetchAll() {
+    public List<Orders> fetchAllOrders() {
         return (List<Orders>) this.ordersRepo.findAll();
     }
 
     @Override
-    public Orders update(Orders orders, Long ordersID) {
+    public Orders updateOrder(Orders orders, Long ordersID) {
         Orders updateOrders = this.ordersRepo.findById(ordersID).get();
         updateOrders.setOrderedAt(orders.getOrderedAt());
         updateOrders.setTotalPrice(orders.getTotalPrice());
@@ -51,7 +51,7 @@ public class OrdersServiceIMPL implements IOrdersService{
     }
 
     @Override
-    public void delete(Long ordersID) {
+    public void deleteOrder(Long ordersID) {
         this.ordersRepo.deleteById(ordersID);
     }
 }

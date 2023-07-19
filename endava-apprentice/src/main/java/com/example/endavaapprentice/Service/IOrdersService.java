@@ -5,9 +5,9 @@ import com.example.endavaapprentice.Model.Orders;
 import java.util.List;
 
 public interface IOrdersService {
-    Orders add(Orders orders, Long customerID, Long ticketCategoryID);
-    Orders fetchOne(Long ordersID);
-    List<Orders> fetchAll();
-    Orders update(Orders orders, Long ordersID);
-    void delete(Long ordersID);
+    Orders placeOrder(Orders orders, Long customerID, Long ticketCategoryID);
+    Orders fetchOneOrder(Long ordersID);
+    List<Orders> fetchAllOrders();
+    Orders updateOrder(Orders orders, Long ordersID);
+    void deleteOrder(Long ordersID);
 }

@@ -1,42 +1,43 @@
 package com.example.endavaapprentice.Controller;
 
 import com.example.endavaapprentice.Model.EventType;
-import com.example.endavaapprentice.Service.EventTypeServiceIMPL;
+import com.example.endavaapprentice.Service.EventTypeService;
 import com.example.endavaapprentice.Service.IEventTypeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/eventType")
 public class EventTypeController {
     private IEventTypeService eventTypeService;
 
-    public EventTypeController(EventTypeServiceIMPL eventTypeService){
+    public EventTypeController(EventTypeService eventTypeService){
         this.eventTypeService = eventTypeService;
     }
 
-    @GetMapping("/api/eventType")
+    @GetMapping
     public List<EventType> fetchAll(){
-        return this.eventTypeService.fetchAll();
+        return this.eventTypeService.fetchAllEventTypes();
     }
 
-    @GetMapping("/api/eventType/{eventTypeID}")
+    @GetMapping("/{eventTypeID}")
     public EventType fetchOne(@PathVariable("eventTypeID") Long eventTypeID){
-        return this.eventTypeService.fetchOne(eventTypeID);
+        return this.eventTypeService.fetchOneEventType(eventTypeID);
     }
 
-    @PostMapping("/api/eventType")
+    @PostMapping
     public EventType add(@RequestBody EventType eventType){
-        return this.eventTypeService.add(eventType);
+        return this.eventTypeService.createEventType(eventType);
     }
 
-    @PutMapping("/api/eventType/{eventTypeID}")
+    @PutMapping("/{eventTypeID}")
     public EventType update(@RequestBody EventType eventType, @PathVariable("eventTypeID") Long eventTypeID){
-        return this.eventTypeService.update(eventType, eventTypeID);
+        return this.eventTypeService.updateEventType(eventType, eventTypeID);
     }
 
-    @DeleteMapping("/api/eventType/{eventTypeID}")
+    @DeleteMapping("/{eventTypeID}")
     public void delete(@PathVariable("eventTypeID") Long eventTypeID){
-        this.eventTypeService.delete(eventTypeID);
+        this.eventTypeService.deleteEventType(eventTypeID);
     }
 }
