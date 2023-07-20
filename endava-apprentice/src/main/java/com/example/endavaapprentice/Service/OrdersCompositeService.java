@@ -1,6 +1,7 @@
 package com.example.endavaapprentice.Service;
 
 import com.example.endavaapprentice.Model.Customer;
+import com.example.endavaapprentice.Model.DTOs.EventOrdersDTO;
 import com.example.endavaapprentice.Model.Orders;
 import com.example.endavaapprentice.Model.TicketCategory;
 import com.example.endavaapprentice.Repository.CustomerRepo;
@@ -9,6 +10,7 @@ import com.example.endavaapprentice.Repository.TicketCategoryRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrdersCompositeService implements IOrdersCompositeService{
@@ -23,7 +25,22 @@ public class OrdersCompositeService implements IOrdersCompositeService{
         this.ticketCategoryService = ticketCategoryService;
     }
 
-
+    @Override
+    public EventOrdersDTO fetchOneByCustomerID(Long customerID){
+        List<Orders> ordersList = this.ordersService.fetchAllOrders();
+        for(Orders orders: ordersList){
+            if(Objects.equals(orders.getCustomer().getCustomerID(), customerID)){
+                return new EventOrdersDTO(
+                        orders.getTicketCategory().getEvent().getEventID(),
+                        orders.getOrderedAt(),
+                        orders.getTicketCategory().getTicketCategoryID(),
+                        orders.getNumberOfTickets(),
+                        orders.getTotalPrice()
+                );
+            }
+        }
+        return null;
+    }
 
     @Override
     public Orders placeOrder(Orders orders, Long customerID, Long ticketCategoryID) {

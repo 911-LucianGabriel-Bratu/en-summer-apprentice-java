@@ -1,5 +1,6 @@
 package com.example.endavaapprentice.Controller;
 
+import com.example.endavaapprentice.Model.DTOs.EventOrdersDTO;
 import com.example.endavaapprentice.Model.Orders;
 import com.example.endavaapprentice.Service.IOrdersCompositeService;
 import com.example.endavaapprentice.Service.OrdersCompositeService;
@@ -24,6 +25,11 @@ public class OrdersController {
     @GetMapping
     public List<Orders> fetchAll(){
         return this.ordersCompositeService.fetchAllOrders();
+    }
+
+    @GetMapping("/customer/{customerID}")
+    public EventOrdersDTO fetchOneByCustomerID(@PathVariable("customerID") Long customerID){
+        return this.ordersCompositeService.fetchOneByCustomerID(customerID);
     }
 
     @PostMapping("/customer/{customerID}/ticketCategory/{ticketCategoryID}")
