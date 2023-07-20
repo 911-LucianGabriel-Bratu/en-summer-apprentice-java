@@ -9,6 +9,8 @@ import com.example.endavaapprentice.Repository.OrdersRepo;
 import com.example.endavaapprentice.Repository.TicketCategoryRepo;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,6 +51,26 @@ public class OrdersCompositeService implements IOrdersCompositeService{
         orders.setCustomer(customer);
         orders.setTicketCategory(ticketCategory);
         return this.ordersService.placeOrder(orders);
+    }
+
+    @Override
+    public EventOrdersDTO placeOrderByEventID(Long eventID, Long ticketCategoryID, Long customerID, int numberOfTickets) {
+        TicketCategory ticketCategory = this.ticketCategoryService.fetchOneTicketCategory(ticketCategoryID);
+        BigDecimal totalPrice = ticketCategory.getPrice();
+        totalPrice = totalPrice.multiply(BigDecimal.valueOf(numberOfTickets));
+        Orders orders = new Orders();
+        orders.setOrderedAt(new Date());
+        orders.setNumberOfTickets(numberOfTickets);
+        orders.setTotalPrice(totalPrice);
+
+        this.placeOrder(orders, customerID, ticketCategoryID);
+        return new EventOrdersDTO(
+                eventID,
+                orders.getOrderedAt(),
+                ticketCategoryID,
+                numberOfTickets,
+                totalPrice
+        );
     }
 
     @Override

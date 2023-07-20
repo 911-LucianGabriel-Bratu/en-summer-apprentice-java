@@ -8,6 +8,7 @@ import java.util.List;
 public interface IOrdersCompositeService {
     Orders placeOrder(Orders orders, Long customerID, Long ticketCategoryID);
 
+    EventOrdersDTO placeOrderByEventID(Long eventID, Long ticketCategoryID, Long customerID, int numberOfTicketsID);
     EventOrdersDTO fetchOneByCustomerID(Long customerID);
     Orders fetchOneOrder(Long ordersID);
     List<Orders> fetchAllOrders();
