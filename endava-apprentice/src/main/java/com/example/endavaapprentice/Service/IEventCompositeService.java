@@ -1,13 +1,11 @@
 package com.example.endavaapprentice.Service;
 
 import com.example.endavaapprentice.Model.Event;
-import com.example.endavaapprentice.Repository.EventRepo;
 
 import java.util.List;
 
-public interface IEventService {
-    EventRepo getEventRepo();
-    Event createEvent(Event event);
+public interface IEventCompositeService {
+    Event createEvent(Event event, Long venueID, Long eventTypeID);
     Event fetchOneEvent(Long eventID);
     List<Event> fetchAllEvents();
     void deleteEvent(Long eventID);

@@ -2,36 +2,42 @@ package com.example.endavaapprentice.Controller;
 
 import com.example.endavaapprentice.Model.Venue;
 import com.example.endavaapprentice.Service.IVenueService;
-import com.example.endavaapprentice.Service.VenueServiceIMPL;
+import com.example.endavaapprentice.Service.VenueService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/venue")
 public class VenueController {
     private IVenueService venueService;
 
-    public VenueController(VenueServiceIMPL venueService){
+    public VenueController(VenueService venueService){
         this.venueService = venueService;
     }
 
-    @GetMapping("/api/venue/{venueID}")
-    public Venue fetchOne(@PathVariable("venueID") Long venueID){
-        return this.venueService.fetchOne(venueID);
+    @GetMapping("/{venueID}")
+    public Venue fetchOneVenue(@PathVariable("venueID") Long venueID){
+        return this.venueService.fetchOneVenue(venueID);
     }
 
-    @GetMapping("/api/venue")
-    public List<Venue> fetchAll(){
-        return this.venueService.fetchAll();
+    @GetMapping
+    public List<Venue> fetchAllVenues(){
+        return this.venueService.fetchAllVenues();
     }
 
-    @PostMapping("/api/venue")
-    public Venue add(@RequestBody Venue venue){
-        return this.venueService.add(venue);
+    @PostMapping
+    public Venue createVenue(@RequestBody Venue venue){
+        return this.venueService.createVenue(venue);
     }
 
-    @PutMapping("/api/venue/{venueID}")
-    public Venue update(@RequestBody Venue venue, @PathVariable("venueID") Long venueID){
-        return this.venueService.update(venue, venueID);
+    @PutMapping("/{venueID}")
+    public Venue updateVenue(@RequestBody Venue venue, @PathVariable("venueID") Long venueID){
+        return this.venueService.updateVenue(venue, venueID);
+    }
+
+    @DeleteMapping("/{venueID}")
+    public void deleteVenue(@PathVariable("venueID") Long venueID){
+        this.venueService.deleteVenue(venueID);
     }
 }

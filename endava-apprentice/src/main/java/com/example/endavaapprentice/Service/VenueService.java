@@ -7,30 +7,34 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VenueServiceIMPL implements IVenueService {
+public class VenueService implements IVenueService {
     private VenueRepo venueRepo;
 
-    public VenueServiceIMPL(VenueRepo venueRepo){
+    public VenueService(VenueRepo venueRepo){
         this.venueRepo = venueRepo;
     }
 
     @Override
-    public Venue fetchOne(Long venueID) {
+    public VenueRepo getVenueRepo(){
+        return this.venueRepo;
+    }
+    @Override
+    public Venue fetchOneVenue(Long venueID) {
         return this.venueRepo.findById(venueID).get();
     }
 
     @Override
-    public List<Venue> fetchAll() {
+    public List<Venue> fetchAllVenues() {
         return (List<Venue>) this.venueRepo.findAll();
     }
 
     @Override
-    public Venue add(Venue venue) {
+    public Venue createVenue(Venue venue) {
         return this.venueRepo.save(venue);
     }
 
     @Override
-    public Venue update(Venue venue, Long venueID) {
+    public Venue updateVenue(Venue venue, Long venueID) {
         Venue updateVenue = this.venueRepo.findById(venueID).get();
         updateVenue.setLocation(venue.getLocation());
         updateVenue.setType(venue.getType());
@@ -39,7 +43,7 @@ public class VenueServiceIMPL implements IVenueService {
     }
 
     @Override
-    public void delete(Long venueID) {
+    public void deleteVenue(Long venueID) {
         this.venueRepo.deleteById(venueID);
     }
 }

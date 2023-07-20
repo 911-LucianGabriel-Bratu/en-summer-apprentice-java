@@ -7,36 +7,39 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CustomerServiceIMPL implements ICustomerService{
+public class CustomerService implements ICustomerService{
     private CustomerRepo customerRepo;
 
-    public CustomerServiceIMPL(CustomerRepo customerRepo){
+    public CustomerService(CustomerRepo customerRepo){
         this.customerRepo = customerRepo;
     }
 
+    public CustomerRepo getCustomerRepo(){
+        return this.customerRepo;
+    }
 
     @Override
-    public Customer add(Customer customer) {
+    public Customer registerCustomer(Customer customer) {
         return this.customerRepo.save(customer);
     }
 
     @Override
-    public Customer fetchOne(Long customerID) {
+    public Customer fetchOneCustomer(Long customerID) {
         return this.customerRepo.findById(customerID).get();
     }
 
     @Override
-    public List<Customer> fetchAll() {
+    public List<Customer> fetchAllCustomers() {
         return (List<Customer>) this.customerRepo.findAll();
     }
 
     @Override
-    public void delete(Long customerID) {
+    public void deleteCustomer(Long customerID) {
         this.customerRepo.deleteById(customerID);
     }
 
     @Override
-    public Customer update(Customer customer, long customerID){
+    public Customer updateCustomer(Customer customer, long customerID){
         Customer updateCustomer = this.customerRepo.findById(customerID).get();
         updateCustomer.setCustomerName(customer.getCustomerName());
         updateCustomer.setEmail(customer.getEmail());

@@ -4,8 +4,8 @@ import com.example.endavaapprentice.Model.Orders;
 
 import java.util.List;
 
-public interface IOrdersService {
-    Orders placeOrder(Orders orders);
+public interface IOrdersCompositeService {
+    Orders placeOrder(Orders orders, Long customerID, Long ticketCategoryID);
     Orders fetchOneOrder(Long ordersID);
     List<Orders> fetchAllOrders();
     Orders updateOrder(Orders orders, Long ordersID);
