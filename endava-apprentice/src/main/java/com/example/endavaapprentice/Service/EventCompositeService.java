@@ -1,13 +1,15 @@
 package com.example.endavaapprentice.Service;
 
 import com.example.endavaapprentice.Model.DTOs.EventVenueEventTypeDTO;
+import com.example.endavaapprentice.Model.DTOs.TicketCategoryDTO;
 import com.example.endavaapprentice.Model.DTOs.VenueDTO;
 import com.example.endavaapprentice.Model.Event;
 import com.example.endavaapprentice.Model.EventType;
+import com.example.endavaapprentice.Model.TicketCategory;
 import com.example.endavaapprentice.Model.Venue;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,10 +42,19 @@ public class EventCompositeService implements IEventCompositeService{
     @Override
     public EventVenueEventTypeDTO fetchEventByVenueAndEventType(Long venueID, String eventType) {
         List<Event> eventList = this.eventService.fetchAllEvents();
+        List<TicketCategoryDTO> ticketCategoryDTOS = new ArrayList<>();
         for(Event event: eventList){
             if(Objects.equals(event.getVenue().getVenueID(), venueID) && Objects.equals(event.getEventType().getEventTypeName(), eventType)){
                 Venue venue = event.getVenue();
                 VenueDTO venueDTO = new VenueDTO(venue.getVenueID(), venue.getLocation(), venue.getType(), venue.getCapacity());
+                for(TicketCategory ticketCategory: event.getTicketCategoryList()){
+                    TicketCategoryDTO ticketCategoryDTO = new TicketCategoryDTO(
+                            ticketCategory.getTicketCategoryID(),
+                            ticketCategory.getDescription(),
+                            ticketCategory.getPrice()
+                    );
+                    ticketCategoryDTOS.add(ticketCategoryDTO);
+                }
                 EventVenueEventTypeDTO eventVenueEventTypeDTO = new EventVenueEventTypeDTO(
                         event.getEventID(),
                         venueDTO,
@@ -51,7 +62,7 @@ public class EventCompositeService implements IEventCompositeService{
                         event.getEventDescription(),
                         event.getStartDate(),
                         event.getEndDate(),
-                        event.getTicketCategoryList()
+                        ticketCategoryDTOS
                 );
                 return eventVenueEventTypeDTO;
             }
