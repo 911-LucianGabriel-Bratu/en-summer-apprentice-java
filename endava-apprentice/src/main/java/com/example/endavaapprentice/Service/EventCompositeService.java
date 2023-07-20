@@ -1,11 +1,15 @@
 package com.example.endavaapprentice.Service;
 
+import com.example.endavaapprentice.Model.DTOs.EventVenueEventTypeDTO;
+import com.example.endavaapprentice.Model.DTOs.VenueDTO;
 import com.example.endavaapprentice.Model.Event;
 import com.example.endavaapprentice.Model.EventType;
 import com.example.endavaapprentice.Model.Venue;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EventCompositeService implements IEventCompositeService{
@@ -31,6 +35,28 @@ public class EventCompositeService implements IEventCompositeService{
     @Override
     public Event fetchOneEvent(Long eventID) {
         return this.eventService.fetchOneEvent(eventID);
+    }
+
+    @Override
+    public EventVenueEventTypeDTO fetchEventByVenueAndEventType(Long venueID, String eventType) {
+        List<Event> eventList = this.eventService.fetchAllEvents();
+        for(Event event: eventList){
+            if(Objects.equals(event.getVenue().getVenueID(), venueID) && Objects.equals(event.getEventType().getEventTypeName(), eventType)){
+                Venue venue = event.getVenue();
+                VenueDTO venueDTO = new VenueDTO(venue.getVenueID(), venue.getLocation(), venue.getType(), venue.getCapacity());
+                EventVenueEventTypeDTO eventVenueEventTypeDTO = new EventVenueEventTypeDTO(
+                        event.getEventID(),
+                        venueDTO,
+                        eventType,
+                        event.getEventDescription(),
+                        event.getStartDate(),
+                        event.getEndDate(),
+                        event.getTicketCategoryList()
+                );
+                return eventVenueEventTypeDTO;
+            }
+        }
+        return null;
     }
 
     @Override

@@ -8,16 +8,16 @@ import java.util.List;
 
 public class EventVenueEventTypeDTO {
     private Long eventID;
-    private Venue venue;
+    private VenueDTO venueDTO;
     private String eventTypeName;
     private String description;
     private Date startDate;
     private Date endDate;
     private List<TicketCategory> ticketCategories;
 
-    public EventVenueEventTypeDTO(Long eventID, Venue venue, String eventTypeName, String description, Date startDate, Date endDate, List<TicketCategory> ticketCategories) {
+    public EventVenueEventTypeDTO(Long eventID, VenueDTO venueDTO, String eventTypeName, String description, Date startDate, Date endDate, List<TicketCategory> ticketCategories) {
         this.eventID = eventID;
-        this.venue = venue;
+        this.venueDTO = venueDTO;
         this.eventTypeName = eventTypeName;
         this.description = description;
         this.startDate = startDate;
@@ -33,12 +33,12 @@ public class EventVenueEventTypeDTO {
         this.eventID = eventID;
     }
 
-    public Venue getVenue() {
-        return venue;
+    public VenueDTO getVenueDTO() {
+        return venueDTO;
     }
 
-    public void setVenue(Venue venue) {
-        this.venue = venue;
+    public void setVenue(VenueDTO venueDTO) {
+        this.venueDTO = venueDTO;
     }
 
     public String getEventTypeName() {
