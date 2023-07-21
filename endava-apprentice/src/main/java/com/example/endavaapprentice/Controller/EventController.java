@@ -1,5 +1,6 @@
 package com.example.endavaapprentice.Controller;
 
+import com.example.endavaapprentice.Model.DTOs.EventVenueEventTypeDTO;
 import com.example.endavaapprentice.Model.Event;
 import com.example.endavaapprentice.Service.EventCompositeService;
 import com.example.endavaapprentice.Service.IEventCompositeService;
@@ -24,6 +25,11 @@ public class EventController {
     @GetMapping
     public List<Event> fetchAll(){
         return this.eventCompositeService.fetchAllEvents();
+    }
+
+    @GetMapping("/venue/{venueID}/eventType/{eventTypeName}")
+    public EventVenueEventTypeDTO fetchEventByVenueAndEventType(@PathVariable("venueID") Long venueID, @PathVariable("eventTypeName") String eventTypeName){
+        return this.eventCompositeService.fetchEventByVenueAndEventType(venueID, eventTypeName);
     }
 
     @PostMapping("/venue/{venueID}/eventType/{eventTypeID}")
