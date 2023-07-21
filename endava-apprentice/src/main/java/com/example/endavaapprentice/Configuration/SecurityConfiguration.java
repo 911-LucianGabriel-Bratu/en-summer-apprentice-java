@@ -26,7 +26,7 @@ public class SecurityConfiguration {
         manager.createUser(User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("admin")
-                .roles("ADMIN", "USER")
+                .roles("ADMIN")
                 .build());
 
         return manager;
@@ -34,11 +34,13 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
+        httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests()
-                .requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers(HttpMethod.POST, "/api/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.POST, "/**").hasAnyRole("ADMIN", "USER")
                 .and().httpBasic(); // Add basic authentication
         return httpSecurity.build();
     }
