@@ -28,7 +28,7 @@ public class EventController {
     }
 
     @GetMapping("/venue/{venueID}/eventType/{eventTypeName}")
-    public EventVenueEventTypeDTO fetchEventByVenueAndEventType(@PathVariable("venueID") Long venueID, @PathVariable("eventTypeName") String eventTypeName){
+    public List<EventVenueEventTypeDTO> fetchEventByVenueAndEventType(@PathVariable("venueID") Long venueID, @PathVariable("eventTypeName") String eventTypeName){
         return this.eventCompositeService.fetchEventByVenueAndEventType(venueID, eventTypeName);
     }
 
