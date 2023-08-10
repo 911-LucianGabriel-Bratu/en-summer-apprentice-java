@@ -36,6 +36,17 @@ public class Orders {
     @JsonIgnore
     private TicketCategory ticketCategory;
 
+    public Orders(){
+    }
+
+    public Orders(Date orderedAt, int numberOfTickets, BigDecimal totalPrice, Customer customer, TicketCategory ticketCategory) {
+        this.orderedAt = orderedAt;
+        this.numberOfTickets = numberOfTickets;
+        this.totalPrice = totalPrice;
+        this.customer = customer;
+        this.ticketCategory = ticketCategory;
+    }
+
     public Long getOrderID() {
         return orderID;
     }

@@ -1,6 +1,7 @@
 package com.example.endavaapprentice.Controller;
 
 import com.example.endavaapprentice.Model.DTOs.EventOrdersDTO;
+import com.example.endavaapprentice.Model.DTOs.OrdersDTO;
 import com.example.endavaapprentice.Model.Orders;
 import com.example.endavaapprentice.Service.IOrdersCompositeService;
 import com.example.endavaapprentice.Service.OrdersCompositeService;
@@ -29,9 +30,26 @@ public class OrdersController {
         return this.ordersCompositeService.fetchAllOrders();
     }
 
+    @GetMapping("/dtos")
+    public List<OrdersDTO> fetchAllOrderDTOs(){
+        return this.ordersCompositeService.fetchAllOrderDTOs();
+    }
+
+    @GetMapping("/dtos/{customerID}")
+    public List<OrdersDTO> fetchAllOrderDTOsByCustomerID(@PathVariable("customerID") Long customerID) { return this.ordersCompositeService.fetchAllOrderDTOsByCustomerID(customerID); }
+
     @GetMapping("/customer/{customerID}")
     public EventOrdersDTO fetchOneByCustomerID(@PathVariable("customerID") Long customerID){
         return this.ordersCompositeService.fetchOneByCustomerID(customerID);
+    }
+
+    @PostMapping
+    public void placeOrderByBody(@RequestBody Map<String,Object> body){
+        Long eventID = Long.parseLong(body.get("eventID").toString());
+        Long customerID = Long.parseLong(body.get("customerID").toString());
+        String ticketCategoryDescription = body.get("ticketCategory").toString();
+        int numberOfTickets = Integer.parseInt(body.get("numberOfTickets").toString());
+        this.ordersCompositeService.placeOrderByBody(eventID, customerID, ticketCategoryDescription, numberOfTickets);
     }
 
     @PostMapping("/customer/{customerID}/ticketCategory/{ticketCategoryID}")
@@ -51,6 +69,11 @@ public class OrdersController {
     @PutMapping("/{orderID}")
     public Orders update(@RequestBody Orders orders, @PathVariable("orderID") Long orderID){
         return this.ordersCompositeService.updateOrder(orders, orderID);
+    }
+
+    @PutMapping("/{orderID}/ticketCategory/{ticketCategoryType}/amount/{numberOfTickets}")
+    public OrdersDTO updateByIDAndTicketCategory(@PathVariable("orderID") Long orderID, @PathVariable("ticketCategoryType") String ticketCategoryType, @PathVariable("numberOfTickets") int numberOfTickets){
+        return this.ordersCompositeService.updateByIDAndTicketCategory(orderID, ticketCategoryType, numberOfTickets);
     }
 
     @DeleteMapping("/{orderID}")

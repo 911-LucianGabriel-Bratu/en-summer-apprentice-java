@@ -32,6 +32,11 @@ public class EventController {
         return this.eventCompositeService.fetchEventByVenueAndEventType(venueID, eventTypeName);
     }
 
+    @GetMapping("/{eventID}/ticketCategory/{ticketCategoryType}")
+    public Long fetchTicketCategoryIDForEventIDAndTicketType(@PathVariable("eventID") Long eventID, @PathVariable("ticketCategoryType") String ticketCategoryType){
+        return this.eventCompositeService.fetchTicketCategoryIDForEventIDAndTicketType(eventID, ticketCategoryType);
+    }
+
     @PostMapping("/venue/{venueID}/eventType/{eventTypeID}")
     public Event add(@RequestBody Event event, @PathVariable("venueID") Long venueID, @PathVariable("eventTypeID") Long eventTypeID){
         return this.eventCompositeService.createEvent(event, venueID, eventTypeID);

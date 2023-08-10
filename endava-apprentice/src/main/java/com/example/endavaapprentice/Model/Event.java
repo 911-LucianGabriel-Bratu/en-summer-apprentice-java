@@ -27,6 +27,9 @@ public class Event {
     @Column(name = "endDate")
     private Date endDate;
 
+    @Column(name = "image")
+    private String imageURL;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "venueID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -43,6 +46,14 @@ public class Event {
     private List<TicketCategory> ticketCategoryList;
 
     public Event(){
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Long getEventID() {
