@@ -1,3 +1,4 @@
+/*
 package com.example.endavaapprentice.Configuration;
 
 import org.springframework.context.annotation.Bean;
@@ -45,3 +46,4 @@ public class SecurityConfiguration {
         return httpSecurity.build();
     }
 }
+*/

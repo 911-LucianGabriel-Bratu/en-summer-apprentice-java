@@ -2,11 +2,14 @@ package com.example.endavaapprentice.Service;
 
 import com.example.endavaapprentice.Model.Customer;
 import com.example.endavaapprentice.Model.DTOs.EventOrdersDTO;
+import com.example.endavaapprentice.Model.DTOs.OrdersDTO;
 import com.example.endavaapprentice.Model.Orders;
 import com.example.endavaapprentice.Model.TicketCategory;
 import com.example.endavaapprentice.Repository.CustomerRepo;
 import com.example.endavaapprentice.Repository.OrdersRepo;
 import com.example.endavaapprentice.Repository.TicketCategoryRepo;
+import jakarta.persistence.criteria.Order;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +31,31 @@ public class OrdersCompositeService implements IOrdersCompositeService{
     }
 
     @Override
+    public OrdersDTO updateByIDAndTicketCategory(Long orderID, String ticketCategoryType, int numberOfTickets){
+        Orders orders = ordersService.fetchOneOrder(orderID);
+        TicketCategory ticketCategory = orders.getTicketCategory();
+        TicketCategory newTicketCategory = null;
+        for(TicketCategory ticketCategory1: ticketCategory.getEvent().getTicketCategoryList()){
+            if(Objects.equals(ticketCategory1.getDescription(), ticketCategoryType)){
+                newTicketCategory = ticketCategory1;
+            }
+        }
+        orders.setTicketCategory(newTicketCategory);
+        orders.setNumberOfTickets(numberOfTickets);
+        orders.setTotalPrice(newTicketCategory.getPrice().multiply(BigDecimal.valueOf(numberOfTickets)));
+        orders.setOrderedAt(new Date());
+        Orders updatedOrder = this.updateOrder(orders, orderID);
+        return new OrdersDTO(
+                updatedOrder.getOrderID(),
+                updatedOrder.getCustomer().getCustomerName(),
+                updatedOrder.getTicketCategory().getDescription(),
+                updatedOrder.getOrderedAt(),
+                updatedOrder.getNumberOfTickets(),
+                updatedOrder.getTotalPrice()
+        );
+    }
+
+    @Override
     public EventOrdersDTO fetchOneByCustomerID(Long customerID){
         List<Orders> ordersList = this.ordersService.fetchAllOrders();
         for(Orders orders: ordersList){
@@ -37,7 +65,8 @@ public class OrdersCompositeService implements IOrdersCompositeService{
                         orders.getOrderedAt(),
                         orders.getTicketCategory().getTicketCategoryID(),
                         orders.getNumberOfTickets(),
-                        orders.getTotalPrice()
+                        orders.getTotalPrice(),
+                        orders.getTicketCategory().getEvent().getImageURL()
                 );
             }
         }
@@ -51,6 +80,28 @@ public class OrdersCompositeService implements IOrdersCompositeService{
         orders.setCustomer(customer);
         orders.setTicketCategory(ticketCategory);
         return this.ordersService.placeOrder(orders);
+    }
+
+    @Override
+    public List<OrdersDTO> fetchAllOrderDTOs() {
+        return this.ordersService.fetchAllOrderDTOs();
+    }
+
+    @Override
+    public List<OrdersDTO> fetchAllOrderDTOsByCustomerID(Long customerID) {
+        return this.ordersService.fetchAllOrderDTOsByCustomerID(customerID);
+    }
+
+    @Override
+    public void placeOrderByBody(Long eventID, Long customerID, String ticketCategoryDescription, int numberOfTickets) {
+        List<TicketCategory> ticketCategoryList = this.ticketCategoryService.fetchAllTicketCategories();
+        Customer customer = this.customerService.fetchOneCustomer(customerID);
+        for(TicketCategory ticketCategory: ticketCategoryList){
+            if(ticketCategory.getEvent().getEventID() == eventID && Objects.equals(ticketCategory.getDescription(), ticketCategoryDescription)){
+                Orders orders = new Orders(new Date(), numberOfTickets, ticketCategory.getPrice().multiply(BigDecimal.valueOf(numberOfTickets)), customer, ticketCategory);
+                this.ordersService.placeOrderByBody(orders);
+            }
+        }
     }
 
     @Override
@@ -69,7 +120,8 @@ public class OrdersCompositeService implements IOrdersCompositeService{
                 orders.getOrderedAt(),
                 ticketCategoryID,
                 numberOfTickets,
-                totalPrice
+                totalPrice,
+                ticketCategory.getEvent().getImageURL()
         );
     }
 

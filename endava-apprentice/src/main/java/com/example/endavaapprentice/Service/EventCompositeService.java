@@ -37,6 +37,18 @@ public class EventCompositeService implements IEventCompositeService{
     }
 
     @Override
+    public Long fetchTicketCategoryIDForEventIDAndTicketType(Long eventID, String ticketCategoryType){
+        Event event = eventService.fetchOneEvent(eventID);
+        List<TicketCategory> ticketCategoryList = event.getTicketCategoryList();
+        for(TicketCategory ticketCategory: ticketCategoryList){
+            if(Objects.equals(ticketCategory.getDescription(), ticketCategoryType)){
+                return ticketCategory.getTicketCategoryID();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Event fetchOneEvent(Long eventID) {
         return this.eventService.fetchOneEvent(eventID);
     }

@@ -1,6 +1,7 @@
 package com.example.endavaapprentice.Service;
 
 import com.example.endavaapprentice.Model.Customer;
+import com.example.endavaapprentice.Model.DTOs.OrdersDTO;
 import com.example.endavaapprentice.Model.Orders;
 import com.example.endavaapprentice.Model.TicketCategory;
 import com.example.endavaapprentice.Repository.CustomerRepo;
@@ -9,6 +10,7 @@ import com.example.endavaapprentice.Repository.TicketCategoryRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdersService implements IOrdersService{
@@ -18,9 +20,45 @@ public class OrdersService implements IOrdersService{
         this.ordersRepo = ordersRepo;
     }
 
+    public List<OrdersDTO> fetchAllOrderDTOs(){
+        List<Orders> ordersList = (List<Orders>) this.ordersRepo.findAll();
+        return ordersList.stream()
+                .map(orders -> new OrdersDTO(
+                        orders.getOrderID(),
+                        orders.getCustomer().getCustomerName(),
+                        orders.getTicketCategory().getDescription(),
+                        orders.getOrderedAt(),
+                        orders.getNumberOfTickets(),
+                        orders.getTotalPrice()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrdersDTO> fetchAllOrderDTOsByCustomerID(Long customerID) {
+        List<Orders> ordersList = (List<Orders>) this.ordersRepo.findAll();
+        return ordersList.stream()
+                .filter(orders -> orders.getCustomer().getCustomerID().equals(customerID))
+                .map(orders -> new OrdersDTO(
+                        orders.getOrderID(),
+                        orders.getCustomer().getCustomerName(),
+                        orders.getTicketCategory().getDescription(),
+                        orders.getOrderedAt(),
+                        orders.getNumberOfTickets(),
+                        orders.getTotalPrice()
+                ))
+                .collect(Collectors.toList());
+    }
+
+
     @Override
     public Orders placeOrder(Orders orders) {
         return this.ordersRepo.save(orders);
+    }
+
+    @Override
+    public void placeOrderByBody(Orders orders) {
+        this.ordersRepo.save(orders);
     }
 
     @Override

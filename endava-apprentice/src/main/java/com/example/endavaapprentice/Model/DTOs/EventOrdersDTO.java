@@ -10,12 +10,23 @@ public class EventOrdersDTO {
     private int numberOfTickets;
     private BigDecimal totalPrice;
 
-    public EventOrdersDTO(Long eventID, Date timestamp, Long ticketCategoryID, int numberOfTickets, BigDecimal totalPrice) {
+    private String imageURL;
+
+    public EventOrdersDTO(Long eventID, Date timestamp, Long ticketCategoryID, int numberOfTickets, BigDecimal totalPrice, String image) {
         this.eventID = eventID;
         this.timestamp = timestamp;
         this.ticketCategoryID = ticketCategoryID;
         this.numberOfTickets = numberOfTickets;
         this.totalPrice = totalPrice;
+        this.imageURL = image;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Long getEventID() {
